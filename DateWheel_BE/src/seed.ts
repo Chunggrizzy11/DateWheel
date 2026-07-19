@@ -9,8 +9,8 @@ const seedDatabase = async () => {
     console.log('Connected to MongoDB for seeding...');
 
     const profiles = [
-      { name: 'Chung', avatar: '👨' },
-      { name: 'Trang', avatar: '👩' }
+      { name: 'Thành Chung', avatar: '👨' },
+      { name: 'Thùy Trang', avatar: '👩' }
     ];
 
     for (const p of profiles) {
