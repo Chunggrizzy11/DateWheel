@@ -6,7 +6,7 @@ import Card from '../../components/common/Card';
 import Loading from '../../components/common/Loading';
 import ProfileAvatar from '../../components/common/ProfileAvatar';
 import { gsap, useGSAP } from '../../lib/gsap';
-import { useHoverTilt } from '../../hooks/useGsapAnimations';
+
 import logoImg from '../../assets/images/Logo.png';
 
 export default function Home() {
@@ -86,7 +86,7 @@ export default function Home() {
 
         {/* Profile Selection */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8">
-          {profiles.map((profile, idx) => (
+          {profiles.map((profile) => (
             <div
               key={profile._id}
               data-gsap="profile-card"

@@ -1,7 +1,7 @@
 import { Category } from '../types/category';
 import { SpinMode } from '../types/wheel';
 
-export function pickWinner(categories: Category[], mode: SpinMode): Category {
+export function pickWinner(categories: Category[], _mode: SpinMode): Category {
   if (categories.length === 0) throw new Error('No categories to pick from');
   if (categories.length === 1) return categories[0];
 

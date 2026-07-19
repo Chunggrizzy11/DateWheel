@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FolderOpen, List, Target, History, Settings, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, FolderOpen, Target, History, Settings, LogOut, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { useProfileStore } from '../../store/profile.store';
 import { ROUTES } from '../../constants/routes';

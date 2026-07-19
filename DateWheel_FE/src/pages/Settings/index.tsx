@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { useProfileStore } from '../../store/profile.store';
 import { useSetting } from '../../hooks/useSetting';
 import Card from '../../components/common/Card';
-import Button from '../../components/common/Button';
+
 import Loading from '../../components/common/Loading';
 import { Moon, Volume2, Sparkles } from 'lucide-react';
-import { toast } from 'sonner';
+
 
 export default function Settings() {
   const { currentProfile } = useProfileStore();

@@ -104,7 +104,7 @@ export default function Dashboard() {
           <p className="text-muted-foreground">No spins yet.</p>
         ) : (
           <div className="flex gap-4 overflow-x-auto pb-2">
-            {histories.slice(0, 5).map((history, idx) => (
+            {histories.slice(0, 5).map((history) => (
               <div key={history._id} className="flex-shrink-0 w-48 p-4 rounded-xl border-[3px] border-white/20 bg-muted/30 hover:bg-muted/50 transition-colors">
                 <div className="w-12 h-12 mb-3 bg-white rounded-xl shadow-inner flex items-center justify-center overflow-hidden">
                   <img src={history.category?.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(history.category?.name || 'U')}&background=random`} alt={history.category?.name || 'Unknown'} className="w-8 h-8 object-contain rounded-lg" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(history.category?.name || 'U')}&background=random` }} />
