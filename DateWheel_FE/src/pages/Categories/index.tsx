@@ -54,6 +54,9 @@ export default function Categories() {
   const [isAddToFolderModalOpen, setIsAddToFolderModalOpen] = useState(false);
   const [targetCategory, setTargetCategory] = useState<any>(null);
 
+  const [isAddCatToFolderModalOpen, setIsAddCatToFolderModalOpen] = useState(false);
+  const [targetFolder, setTargetFolder] = useState<any>(null);
+
   const [expandedFolders, setExpandedFolders] = useState<Record<string, boolean>>({});
 
   const [aiLoading, setAiLoading] = useState(false);
@@ -186,6 +189,24 @@ export default function Categories() {
     await editFolder(folderId, { categories: newCategories });
   };
 
+  const toggleCategoryForTargetFolder = async (categoryId: string) => {
+    if (!targetFolder) return;
+    
+    const categoriesList = targetFolder.categories.map((c: any) => c._id || c);
+    const isIncluded = categoriesList.includes(categoryId);
+    
+    let newCategories = [];
+    if (isIncluded) {
+      newCategories = categoriesList.filter((id: string) => id !== categoryId);
+    } else {
+      newCategories = [...categoriesList, categoryId];
+    }
+    
+    // Update local state for immediate feedback
+    setTargetFolder({ ...targetFolder, categories: newCategories });
+    await editFolder(targetFolder._id, { categories: newCategories });
+  };
+
   const renderCategoryCard = (cat: any, onRemoveFromFolder?: () => void) => (
     <Card key={cat._id} hover data-gsap="cat-card" className="">
       <div className="flex items-start justify-between mb-4">
@@ -265,14 +286,17 @@ export default function Categories() {
                           <p className="text-xs text-muted-foreground">{folder.categories?.length || 0} items</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <button onClick={(e) => { e.stopPropagation(); handleOpenFolderModal(folder); }} className="p-1.5 text-muted-foreground hover:text-primary transition-colors">
+                      <div className="flex items-center gap-1 sm:gap-2">
+                        <button onClick={(e) => { e.stopPropagation(); setTargetFolder(folder); setIsAddCatToFolderModalOpen(true); }} className="p-1.5 text-muted-foreground hover:text-blue-500 transition-colors" title="Thêm Category vào Thư mục này">
+                          <Plus size={16} />
+                        </button>
+                        <button onClick={(e) => { e.stopPropagation(); handleOpenFolderModal(folder); }} className="p-1.5 text-muted-foreground hover:text-primary transition-colors" title="Sửa Thư mục">
                           <Edit2 size={16} />
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); setDeleteFolderId(folder._id); }} className="p-1.5 text-muted-foreground hover:text-red-500 transition-colors">
+                        <button onClick={(e) => { e.stopPropagation(); setDeleteFolderId(folder._id); }} className="p-1.5 text-muted-foreground hover:text-red-500 transition-colors" title="Xóa Thư mục">
                           <Trash2 size={16} />
                         </button>
-                        <div className="ml-2 text-muted-foreground">
+                        <div className="ml-1 sm:ml-2 text-muted-foreground">
                           {expandedFolders[folder._id] ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                         </div>
                       </div>
@@ -412,8 +436,40 @@ export default function Categories() {
             })
           )}
         </div>
-        <div className="flex justify-end gap-3">
+        <div className="flex justify-end gap-3 pt-2">
           <Button variant="ghost" onClick={() => setIsAddToFolderModalOpen(false)}>Xong</Button>
+        </div>
+      </Modal>
+
+      {/* Add Categories to Target Folder Modal */}
+      <Modal open={isAddCatToFolderModalOpen} onClose={() => setIsAddCatToFolderModalOpen(false)} size="md" title={`Thêm vào ${targetFolder?.name}`}>
+        <div className="space-y-2 mb-6 max-h-[60vh] overflow-y-auto pr-2">
+          <p className="text-sm text-muted-foreground mb-4">Chọn các category để thêm vào thư mục <strong>{targetFolder?.name}</strong>:</p>
+          {categories.length === 0 ? (
+            <div className="text-sm text-muted-foreground text-center py-4 bg-muted/30 rounded-lg">Bạn chưa có category nào.</div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {categories.map(cat => {
+                const isIncluded = targetFolder?.categories?.some((c: any) => (c._id || c) === cat._id);
+                return (
+                  <div 
+                    key={cat._id} 
+                    className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${isIncluded ? 'bg-primary/10 border-primary/30' : 'bg-card border-border hover:bg-muted/50'}`}
+                    onClick={() => toggleCategoryForTargetFolder(cat._id)}
+                  >
+                    <div className="flex items-center gap-3 overflow-hidden">
+                      <img src={cat.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.name)}&background=random`} alt={cat.name} className="w-8 h-8 object-contain rounded shadow-sm border border-border" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.name)}&background=random` }} />
+                      <span className="font-medium truncate">{cat.name}</span>
+                    </div>
+                    {isIncluded && <Check size={18} className="text-primary flex-shrink-0" />}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+        <div className="flex justify-end gap-3 pt-4 border-t border-border">
+          <Button variant="ghost" onClick={() => setIsAddCatToFolderModalOpen(false)}>Xong</Button>
         </div>
       </Modal>
 
