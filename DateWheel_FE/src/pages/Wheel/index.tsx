@@ -156,10 +156,10 @@ export default function Wheel() {
 
   return (
     <div ref={containerRef} className="page-container max-w-6xl">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8">
         
         {/* Left: Filters & Selection (4 cols) */}
-        <div data-gsap="wheel-sidebar" className="lg:col-span-4 flex flex-col h-[calc(100vh-8rem)]">
+        <div data-gsap="wheel-sidebar" className="lg:col-span-4 flex flex-col order-2 lg:order-1 max-h-[50vh] lg:max-h-none lg:h-[calc(100vh-8rem)]">
           <h2 className="text-xl font-bold mb-4 flex items-center gap-2"><Settings2 size={20} /> Configure Wheel</h2>
           
           <Card className="mb-4 p-4 space-y-3 shrink-0">
@@ -208,7 +208,7 @@ export default function Wheel() {
         </div>
 
         {/* Right: Wheel Canvas & Controls (8 cols) */}
-        <div data-gsap="wheel-canvas" className="lg:col-span-8 flex flex-col items-center justify-center pt-8 lg:pt-0">
+        <div data-gsap="wheel-canvas" className="lg:col-span-8 flex flex-col items-center justify-center order-1 lg:order-2">
           
           <div className="w-full mb-8">
             <WheelCanvas 
@@ -220,7 +220,7 @@ export default function Wheel() {
             />
           </div>
           
-          <div className="flex flex-col items-center w-full max-w-sm gap-4">
+          <div className="flex flex-col items-center w-full max-w-xs sm:max-w-sm gap-3 sm:gap-4 px-2">
             <div className="flex bg-muted p-1 rounded-xl w-full">
               {(['random', 'weighted', 'no_repeat'] as const).map((m) => (
                 <button
@@ -234,7 +234,8 @@ export default function Wheel() {
               ))}
             </div>
             
-            <Button 
+            <Button
+
               size="lg" 
               className="w-full text-xl py-6 rounded-2xl shadow-xl shadow-primary/30" 
               onClick={handleSpinClick}
