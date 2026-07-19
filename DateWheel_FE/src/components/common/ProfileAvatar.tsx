@@ -1,4 +1,6 @@
 import { cn } from '../../lib/utils';
+import chungImg from '../../assets/images/Chung.png';
+import trangImg from '../../assets/images/Trang.png';
 
 interface ProfileAvatarProps {
   name: string;
@@ -11,6 +13,13 @@ const sizeClasses = {
   md: 'w-10 h-10 text-sm',
   lg: 'w-16 h-16 text-2xl',
   xl: 'w-24 h-24 text-5xl',
+};
+
+const avatars: Record<string, string> = {
+  'chung': chungImg,
+  'trang': trangImg,
+  'thành chung': chungImg,
+  'thùy trang': trangImg,
 };
 
 // Curated gradient pairs — warm, romantic tones for a dating app
@@ -34,17 +43,23 @@ function getGradient(name: string): string {
 export default function ProfileAvatar({ name, size = 'md', className }: ProfileAvatarProps) {
   const initial = name?.charAt(0)?.toUpperCase() || '?';
   const gradient = getGradient(name || '');
+  const imageSrc = name ? avatars[name.toLowerCase()] : null;
 
   return (
     <div
       className={cn(
-        'rounded-full bg-gradient-to-br flex items-center justify-center font-bold text-white shadow-md select-none shrink-0',
-        gradient,
+        'rounded-full flex items-center justify-center font-bold text-white shadow-md select-none shrink-0 overflow-hidden',
+        !imageSrc && 'bg-gradient-to-br',
+        !imageSrc && gradient,
         sizeClasses[size],
         className
       )}
     >
-      {initial}
+      {imageSrc ? (
+        <img src={imageSrc} alt={name} className="w-full h-full object-cover" />
+      ) : (
+        initial
+      )}
     </div>
   );
 }
