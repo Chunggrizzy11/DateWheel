@@ -59,6 +59,8 @@ export default function Categories() {
   const [targetFolderForNewCategory, setTargetFolderForNewCategory] = useState<string | null>(null);
 
   const [expandedFolders, setExpandedFolders] = useState<Record<string, boolean>>({});
+  const [foldersCollapsed, setFoldersCollapsed] = useState(false);
+  const [categoriesCollapsed, setCategoriesCollapsed] = useState(false);
 
   const [aiLoading, setAiLoading] = useState(false);
 
@@ -288,87 +290,119 @@ export default function Categories() {
           {/* FOLDERS SECTION */}
           {folders.length > 0 && (
             <div>
-              <div className="flex items-center gap-2 mb-4 text-muted-foreground font-medium">
+              <div
+                className="flex items-center gap-2 mb-4 text-muted-foreground font-medium cursor-pointer select-none hover:text-foreground transition-colors"
+                onClick={() => setFoldersCollapsed(prev => !prev)}
+              >
+                <div className="transition-transform duration-200" style={{ transform: foldersCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)' }}>
+                  <ChevronDown size={18} />
+                </div>
                 <FolderIcon size={18} />
                 <h2>Thư mục ({folders.length})</h2>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                {currentFolders.map(folder => (
-                  <div key={folder._id} data-gsap="folder-card" className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
-                    <div 
-                      className="p-4 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
-                      onClick={() => toggleFolder(folder._id)}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-primary/10 text-primary rounded-xl">
-                          <FolderIcon size={20} />
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateRows: foldersCollapsed ? '0fr' : '1fr',
+                  transition: 'grid-template-rows 0.3s ease',
+                }}
+              >
+                <div style={{ overflow: 'hidden' }}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    {currentFolders.map(folder => (
+                      <div key={folder._id} data-gsap="folder-card" className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
+                        <div 
+                          className="p-4 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
+                          onClick={() => toggleFolder(folder._id)}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 bg-primary/10 text-primary rounded-xl">
+                              <FolderIcon size={20} />
+                            </div>
+                            <div>
+                              <h3 className="font-semibold">{folder.name}</h3>
+                              <p className="text-xs text-muted-foreground">{folder.categories?.length || 0} items</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1 sm:gap-2">
+                            <button onClick={(e) => { e.stopPropagation(); handleOpenCatModal(undefined, folder._id); }} className="p-1.5 text-muted-foreground hover:text-blue-500 transition-colors" title="Tạo Category mới vào Thư mục này">
+                              <Plus size={16} />
+                            </button>
+                            <button onClick={(e) => { e.stopPropagation(); handleOpenFolderModal(folder); }} className="p-1.5 text-muted-foreground hover:text-primary transition-colors" title="Sửa Thư mục">
+                              <Edit2 size={16} />
+                            </button>
+                            <button onClick={(e) => { e.stopPropagation(); setDeleteFolderId(folder._id); }} className="p-1.5 text-muted-foreground hover:text-red-500 transition-colors" title="Xóa Thư mục">
+                              <Trash2 size={16} />
+                            </button>
+                            <div className="ml-1 sm:ml-2 text-muted-foreground">
+                              {expandedFolders[folder._id] ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-semibold">{folder.name}</h3>
-                          <p className="text-xs text-muted-foreground">{folder.categories?.length || 0} items</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1 sm:gap-2">
-                        <button onClick={(e) => { e.stopPropagation(); handleOpenCatModal(undefined, folder._id); }} className="p-1.5 text-muted-foreground hover:text-blue-500 transition-colors" title="Tạo Category mới vào Thư mục này">
-                          <Plus size={16} />
-                        </button>
-                        <button onClick={(e) => { e.stopPropagation(); handleOpenFolderModal(folder); }} className="p-1.5 text-muted-foreground hover:text-primary transition-colors" title="Sửa Thư mục">
-                          <Edit2 size={16} />
-                        </button>
-                        <button onClick={(e) => { e.stopPropagation(); setDeleteFolderId(folder._id); }} className="p-1.5 text-muted-foreground hover:text-red-500 transition-colors" title="Xóa Thư mục">
-                          <Trash2 size={16} />
-                        </button>
-                        <div className="ml-1 sm:ml-2 text-muted-foreground">
-                          {expandedFolders[folder._id] ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {expandedFolders[folder._id] && (
-                      <div className="p-4 pt-0 border-t border-border/50 bg-muted/20">
-                        {folder.categories?.length === 0 ? (
-                          <div className="text-center py-6 text-sm text-muted-foreground">Thư mục trống</div>
-                        ) : (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                            {folder.categories.map((catAny: any) => {
-                              // Backend populates categories, we find the full object
-                              const catId = typeof catAny === 'string' ? catAny : catAny._id;
-                              const fullCat = categories.find(c => c._id === catId);
-                              if (!fullCat) return null;
-                              
-                              return renderCategoryCard(fullCat, async () => {
-                                const newCats = folder.categories.map((c:any) => c._id || c).filter((id:string) => id !== fullCat._id);
-                                await editFolder(folder._id, { categories: newCats });
-                              });
-                            })}
+                        
+                        {expandedFolders[folder._id] && (
+                          <div className="p-4 pt-0 border-t border-border/50 bg-muted/20">
+                            {folder.categories?.length === 0 ? (
+                              <div className="text-center py-6 text-sm text-muted-foreground">Thư mục trống</div>
+                            ) : (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                                {folder.categories.map((catAny: any) => {
+                                  // Backend populates categories, we find the full object
+                                  const catId = typeof catAny === 'string' ? catAny : catAny._id;
+                                  const fullCat = categories.find(c => c._id === catId);
+                                  if (!fullCat) return null;
+                                  
+                                  return renderCategoryCard(fullCat, async () => {
+                                    const newCats = folder.categories.map((c:any) => c._id || c).filter((id:string) => id !== fullCat._id);
+                                    await editFolder(folder._id, { categories: newCats });
+                                  });
+                                })}
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
-                    )}
+                    ))}
                   </div>
-                ))}
-              </div>
-              <div className="mb-8">
-                <Pagination currentPage={folderPage} totalPages={totalFolderPages} onPageChange={setFolderPage} />
+                  <div className="mb-8">
+                    <Pagination currentPage={folderPage} totalPages={totalFolderPages} onPageChange={setFolderPage} />
+                  </div>
+                </div>
               </div>
             </div>
           )}
 
           {/* ALL CATEGORIES SECTION */}
           <div>
-            <div className="flex items-center gap-2 mb-4 text-muted-foreground font-medium">
+            <div
+              className="flex items-center gap-2 mb-4 text-muted-foreground font-medium cursor-pointer select-none hover:text-foreground transition-colors"
+              onClick={() => setCategoriesCollapsed(prev => !prev)}
+            >
+              <div className="transition-transform duration-200" style={{ transform: categoriesCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)' }}>
+                <ChevronDown size={18} />
+              </div>
               <h2>Tất cả Categories ({categories.length})</h2>
             </div>
-            {categories.length === 0 ? (
-              <Empty title="No Categories" description="Create a category to get started." />
-            ) : (
-              <>
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-                  {currentCategories.map(cat => renderCategoryCard(cat))}
-                </div>
-                <Pagination currentPage={catPage} totalPages={totalCatPages} onPageChange={setCatPage} />
-              </>
-            )}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateRows: categoriesCollapsed ? '0fr' : '1fr',
+                transition: 'grid-template-rows 0.3s ease',
+              }}
+            >
+              <div style={{ overflow: 'hidden' }}>
+                {categories.length === 0 ? (
+                  <Empty title="No Categories" description="Create a category to get started." />
+                ) : (
+                  <>
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                      {currentCategories.map(cat => renderCategoryCard(cat))}
+                    </div>
+                    <Pagination currentPage={catPage} totalPages={totalCatPages} onPageChange={setCatPage} />
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
