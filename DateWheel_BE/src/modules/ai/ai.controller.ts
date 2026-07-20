@@ -23,7 +23,7 @@ export const generateIconUrl = async (req: Request, res: Response, next: NextFun
           {
             role: 'system',
             content:
-              'You are a helpful assistant. The user will give you a category name (possibly in Vietnamese or any language). Your job is to reply with ONLY 2-3 English words that best describe the main subject for a cute, safe, realistic photograph of that category. Do NOT output anything related to violence, death, gore, or NSFW content. If the user input is inappropriate or violent, fallback to "cute toy". Do NOT include any explanation, punctuation, or extra text. Just the keywords. Examples: "cute coffee cup", "movie theater", "romantic dinner", "cute cat".',
+              'You are a helpful assistant. The user will give you a category name (possibly in Vietnamese or any language). Your job is to reply with ONLY 2-4 English words that DIRECTLY and VISUALLY represent that exact category name as a clear, recognizable icon image. The image MUST look like what the category name describes — not something loosely related. For example: if the name is "Cà phê" reply "coffee cup latte art", if "Xem phim" reply "cinema movie screen", if "Bún bò" reply "Vietnamese bun bo hue bowl", if "Pizza" reply "pepperoni pizza slice". Always be SPECIFIC and LITERAL to the category name. Do NOT output anything related to violence, death, gore, or NSFW content. If the user input is inappropriate or violent, fallback to "cute toy". Do NOT include any explanation, punctuation, or extra text. Just the keywords.',
           },
           {
             role: 'user',
@@ -47,7 +47,7 @@ export const generateIconUrl = async (req: Request, res: Response, next: NextFun
       return res.status(500).json({ success: false, message: 'AI returned empty keyword' });
     }
 
-    const encodedKeyword = encodeURIComponent(`${keyword}, cute, highly detailed ultra realistic photography, real life, 8k resolution, photorealistic, beautiful`);
+    const encodedKeyword = encodeURIComponent(`${keyword}, clean icon style, centered, white background, highly detailed, realistic, professional product photography`);
     const seed = Math.floor(Math.random() * 999999999);
     const imageUrl = `https://image.pollinations.ai/prompt/${encodedKeyword}?width=256&height=256&nologo=true&seed=${seed}&safe=true`;
 

@@ -6,7 +6,7 @@ import Card from '../../components/common/Card';
 import Button from '../../components/common/Button';
 import Loading from '../../components/common/Loading';
 import Empty from '../../components/common/Empty';
-import { Plus, Edit2, Trash2, Bot, Loader2, Sparkles, Folder as FolderIcon, FolderPlus, ChevronDown, ChevronRight, Check } from 'lucide-react';
+import { Plus, Edit2, Trash2, Bot, Loader2, Sparkles, Folder as FolderIcon, FolderPlus, ChevronDown, ChevronRight, Check, ExternalLink } from 'lucide-react';
 import Modal from '../../components/common/Modal';
 import Input from '../../components/common/Input';
 import DeleteDialog from '../../components/common/DeleteDialog';
@@ -44,7 +44,7 @@ export default function Categories() {
   const [isCatModalOpen, setIsCatModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<any>(null);
   const [deleteCatId, setDeleteCatId] = useState<string | null>(null);
-  const [catFormData, setCatFormData] = useState({ name: '', icon: '', color: '#7c3aed' });
+  const [catFormData, setCatFormData] = useState({ name: '', icon: '', color: '#7c3aed', purchaseUrl: '' });
 
   const [isFolderModalOpen, setIsFolderModalOpen] = useState(false);
   const [editingFolder, setEditingFolder] = useState<any>(null);
@@ -133,11 +133,11 @@ export default function Categories() {
 
     if (cat) {
       setEditingCategory(cat);
-      setCatFormData({ name: cat.name, icon: cat.icon, color: cat.color });
+      setCatFormData({ name: cat.name, icon: cat.icon, color: cat.color, purchaseUrl: cat.purchaseUrl || '' });
       userSetIconRef.current = true;
     } else {
       setEditingCategory(null);
-      setCatFormData({ name: '', icon: '', color: '#e11d48' });
+      setCatFormData({ name: '', icon: '', color: '#e11d48', purchaseUrl: '' });
     }
     setIsCatModalOpen(true);
   };
@@ -248,7 +248,18 @@ export default function Categories() {
         </div>
       </div>
       <h3 className="text-lg font-bold">{cat.name}</h3>
-
+      {cat.purchaseUrl && (
+        <a
+          href={cat.purchaseUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 dark:text-blue-400 dark:bg-blue-500/10 dark:hover:bg-blue-500/20 rounded-lg transition-colors"
+        >
+          <ExternalLink size={12} />
+          Mua hàng
+        </a>
+      )}
     </Card>
   );
 
@@ -388,6 +399,14 @@ export default function Categories() {
               </div>
             )}
           </div>
+
+          {/* Purchase URL */}
+          <Input
+            label="Link mua hàng"
+            value={catFormData.purchaseUrl}
+            onChange={(e) => setCatFormData((prev) => ({ ...prev, purchaseUrl: e.target.value }))}
+            placeholder="https://shopee.vn/..."
+          />
 
           {/* Image preview */}
           {catFormData.icon && (
