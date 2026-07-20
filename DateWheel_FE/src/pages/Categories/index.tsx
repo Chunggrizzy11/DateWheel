@@ -56,6 +56,7 @@ export default function Categories() {
 
   const [isAddCatToFolderModalOpen, setIsAddCatToFolderModalOpen] = useState(false);
   const [targetFolder, setTargetFolder] = useState<any>(null);
+  const [targetFolderForNewCategory, setTargetFolderForNewCategory] = useState<string | null>(null);
 
   const [expandedFolders, setExpandedFolders] = useState<Record<string, boolean>>({});
 
@@ -124,9 +125,11 @@ export default function Categories() {
     }
   };
 
-  const handleOpenCatModal = (cat?: any) => {
+  const handleOpenCatModal = (cat?: any, folderId?: string) => {
     userSetIconRef.current = false;
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+
+    setTargetFolderForNewCategory(folderId || null);
 
     if (cat) {
       setEditingCategory(cat);
@@ -144,9 +147,17 @@ export default function Categories() {
     if (editingCategory) {
       await editCategory(editingCategory._id, catFormData);
     } else {
-      await createCategory({ ...catFormData, owner: owner! });
+      const newCat = await createCategory({ ...catFormData, owner: owner! });
+      if (newCat && targetFolderForNewCategory) {
+        const folder = folders.find(f => f._id === targetFolderForNewCategory);
+        if (folder) {
+          const newCategories = [...(folder.categories.map((c: any) => c._id || c)), newCat._id];
+          await editFolder(folder._id, { categories: newCategories });
+        }
+      }
     }
     setIsCatModalOpen(false);
+    setTargetFolderForNewCategory(null);
   };
 
   // ---- Folder Handlers ----
@@ -287,7 +298,7 @@ export default function Categories() {
                         </div>
                       </div>
                       <div className="flex items-center gap-1 sm:gap-2">
-                        <button onClick={(e) => { e.stopPropagation(); setTargetFolder(folder); setIsAddCatToFolderModalOpen(true); }} className="p-1.5 text-muted-foreground hover:text-blue-500 transition-colors" title="Thêm Category vào Thư mục này">
+                        <button onClick={(e) => { e.stopPropagation(); handleOpenCatModal(undefined, folder._id); }} className="p-1.5 text-muted-foreground hover:text-blue-500 transition-colors" title="Tạo Category mới vào Thư mục này">
                           <Plus size={16} />
                         </button>
                         <button onClick={(e) => { e.stopPropagation(); handleOpenFolderModal(folder); }} className="p-1.5 text-muted-foreground hover:text-primary transition-colors" title="Sửa Thư mục">
@@ -352,7 +363,7 @@ export default function Categories() {
       )}
 
       {/* Category Modal */}
-      <Modal open={isCatModalOpen} onClose={() => setIsCatModalOpen(false)} size="sm" title={editingCategory ? 'Edit Category' : 'New Category'}>
+      <Modal open={isCatModalOpen} onClose={() => { setIsCatModalOpen(false); setTargetFolderForNewCategory(null); }} size="sm" title={editingCategory ? 'Edit Category' : 'New Category'}>
         <div className="space-y-4">
           <Input label="Name" value={catFormData.name} onChange={(e) => handleCatNameChange(e.target.value)} placeholder="e.g. Cafe, Xem phim..." />
 
@@ -391,7 +402,7 @@ export default function Categories() {
           )}
 
           <div className="pt-4 flex justify-end gap-3">
-            <Button variant="ghost" onClick={() => setIsCatModalOpen(false)}>Cancel</Button>
+            <Button variant="ghost" onClick={() => { setIsCatModalOpen(false); setTargetFolderForNewCategory(null); }}>Cancel</Button>
             <Button variant="outline" onClick={handleGenerateAI} disabled={aiLoading || !catFormData.name.trim()} className="gap-2 border-primary text-primary hover:bg-primary/10">
               <Sparkles size={16} /> Lấy ảnh AI
             </Button>
