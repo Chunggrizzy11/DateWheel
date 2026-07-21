@@ -74,12 +74,12 @@ export default function Home() {
         {/* Header */}
         <div className="space-y-4">
           <div className="flex items-center justify-center gap-4">
-            <div data-gsap="hero-title" className="mix-blend-darken">
-              <img src={logoImg} alt="Decision Wheel Logo" className="w-64 md:w-[450px] h-auto object-contain" />
+            <div data-gsap="hero-title">
+              <img src={logoImg} alt="Decision Wheel Logo" className="w-64 md:w-[450px] h-auto object-contain drop-shadow-md" />
             </div>
           </div>
 
-          <p data-gsap="hero-sub" className="text-xl text-muted-foreground">
+          <p data-gsap="hero-sub" className="text-xl text-body">
             Choose your profile to continue
           </p>
         </div>

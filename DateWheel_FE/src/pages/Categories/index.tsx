@@ -223,12 +223,12 @@ export default function Categories() {
   const renderCategoryCard = (cat: any, onRemoveFromFolder?: () => void) => (
     <Card key={cat._id} hover data-gsap="cat-card" className="">
       <div className="flex items-start justify-between mb-4">
-        <div className="w-16 h-16 rounded-[1rem] flex items-center justify-center text-2xl border-[3px] border-white/50 bg-white shadow-inner overflow-hidden">
+        <div className="w-16 h-16 rounded-base flex items-center justify-center text-2xl border border-glass-border bg-neutral-primary-soft shadow-inner overflow-hidden">
           <img src={cat.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.name)}&background=random`} alt={cat.name} className="w-10 h-10 object-contain" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.name)}&background=random` }} />
         </div>
         <div className="flex gap-1">
           {onRemoveFromFolder ? (
-            <button onClick={onRemoveFromFolder} className="p-1.5 text-muted-foreground hover:text-red-500 transition-colors" title="Remove from folder">
+            <button onClick={onRemoveFromFolder} className="p-1.5 text-body-subtle hover:text-danger transition-colors" title="Remove from folder">
               <Trash2 size={16} />
             </button>
           ) : (
@@ -236,27 +236,27 @@ export default function Categories() {
               <button onClick={() => {
                 setTargetCategory(cat);
                 setIsAddToFolderModalOpen(true);
-              }} className="p-1.5 text-muted-foreground hover:text-blue-500 transition-colors" title="Add to folder">
+              }} className="p-1.5 text-body-subtle hover:text-brand transition-colors" title="Add to folder">
                 <FolderPlus size={16} />
               </button>
-              <button onClick={() => handleOpenCatModal(cat)} className="p-1.5 text-muted-foreground hover:text-primary transition-colors">
+              <button onClick={() => handleOpenCatModal(cat)} className="p-1.5 text-body-subtle hover:text-brand transition-colors">
                 <Edit2 size={16} />
               </button>
-              <button onClick={() => setDeleteCatId(cat._id)} className="p-1.5 text-muted-foreground hover:text-red-500 transition-colors">
+              <button onClick={() => setDeleteCatId(cat._id)} className="p-1.5 text-body-subtle hover:text-danger transition-colors">
                 <Trash2 size={16} />
               </button>
             </>
           )}
         </div>
       </div>
-      <h3 className="text-lg font-bold">{cat.name}</h3>
+      <h3 className="text-lg font-bold text-heading">{cat.name}</h3>
       {cat.purchaseUrl && (
         <a
           href={cat.purchaseUrl}
           target="_blank"
           rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}
-          className="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 dark:text-blue-400 dark:bg-blue-500/10 dark:hover:bg-blue-500/20 rounded-lg transition-colors"
+          className="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 text-xs font-medium text-brand bg-glass-bg hover:bg-glass-bg-hover border border-glass-border rounded-base transition-colors"
         >
           <ExternalLink size={12} />
           Mua hàng
@@ -291,7 +291,7 @@ export default function Categories() {
           {folders.length > 0 && (
             <div>
               <div
-                className="flex items-center gap-2 mb-4 text-muted-foreground font-medium cursor-pointer select-none hover:text-foreground transition-colors"
+                className="flex items-center gap-2 mb-4 text-body-subtle font-medium cursor-pointer select-none hover:text-heading transition-colors"
                 onClick={() => setFoldersCollapsed(prev => !prev)}
               >
                 <div className="transition-transform duration-200" style={{ transform: foldersCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)' }}>
@@ -310,40 +310,40 @@ export default function Categories() {
                 <div style={{ overflow: 'hidden' }}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     {currentFolders.map(folder => (
-                      <div key={folder._id} data-gsap="folder-card" className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
+                      <div key={folder._id} data-gsap="folder-card" className="glass-card overflow-hidden">
                         <div 
-                          className="p-4 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
+                          className="p-4 flex items-center justify-between cursor-pointer hover:bg-glass-bg-hover transition-colors"
                           onClick={() => toggleFolder(folder._id)}
                         >
                           <div className="flex items-center gap-3">
-                            <div className="p-2 bg-primary/10 text-primary rounded-xl">
+                            <div className="p-2 bg-glass-bg border border-glass-border text-brand rounded-base shadow-glint">
                               <FolderIcon size={20} />
                             </div>
                             <div>
-                              <h3 className="font-semibold">{folder.name}</h3>
-                              <p className="text-xs text-muted-foreground">{folder.categories?.length || 0} items</p>
+                              <h3 className="font-semibold text-heading">{folder.name}</h3>
+                              <p className="text-xs text-body-subtle">{folder.categories?.length || 0} items</p>
                             </div>
                           </div>
                           <div className="flex items-center gap-1 sm:gap-2">
-                            <button onClick={(e) => { e.stopPropagation(); handleOpenCatModal(undefined, folder._id); }} className="p-1.5 text-muted-foreground hover:text-blue-500 transition-colors" title="Tạo Category mới vào Thư mục này">
+                            <button onClick={(e) => { e.stopPropagation(); handleOpenCatModal(undefined, folder._id); }} className="p-1.5 text-body-subtle hover:text-brand transition-colors" title="Tạo Category mới vào Thư mục này">
                               <Plus size={16} />
                             </button>
-                            <button onClick={(e) => { e.stopPropagation(); handleOpenFolderModal(folder); }} className="p-1.5 text-muted-foreground hover:text-primary transition-colors" title="Sửa Thư mục">
+                            <button onClick={(e) => { e.stopPropagation(); handleOpenFolderModal(folder); }} className="p-1.5 text-body-subtle hover:text-brand transition-colors" title="Sửa Thư mục">
                               <Edit2 size={16} />
                             </button>
-                            <button onClick={(e) => { e.stopPropagation(); setDeleteFolderId(folder._id); }} className="p-1.5 text-muted-foreground hover:text-red-500 transition-colors" title="Xóa Thư mục">
+                            <button onClick={(e) => { e.stopPropagation(); setDeleteFolderId(folder._id); }} className="p-1.5 text-body-subtle hover:text-danger transition-colors" title="Xóa Thư mục">
                               <Trash2 size={16} />
                             </button>
-                            <div className="ml-1 sm:ml-2 text-muted-foreground">
+                            <div className="ml-1 sm:ml-2 text-body-subtle">
                               {expandedFolders[folder._id] ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                             </div>
                           </div>
                         </div>
                         
                         {expandedFolders[folder._id] && (
-                          <div className="p-4 pt-0 border-t border-border/50 bg-muted/20">
+                          <div className="p-4 pt-0 border-t border-glass-border bg-glass-bg">
                             {folder.categories?.length === 0 ? (
-                              <div className="text-center py-6 text-sm text-muted-foreground">Thư mục trống</div>
+                              <div className="text-center py-6 text-sm text-body-subtle">Thư mục trống</div>
                             ) : (
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                                 {folder.categories.map((catAny: any) => {
@@ -375,7 +375,7 @@ export default function Categories() {
           {/* ALL CATEGORIES SECTION */}
           <div>
             <div
-              className="flex items-center gap-2 mb-4 text-muted-foreground font-medium cursor-pointer select-none hover:text-foreground transition-colors"
+              className="flex items-center gap-2 mb-4 text-body-subtle font-medium cursor-pointer select-none hover:text-heading transition-colors"
               onClick={() => setCategoriesCollapsed(prev => !prev)}
             >
               <div className="transition-transform duration-200" style={{ transform: categoriesCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)' }}>
@@ -421,13 +421,13 @@ export default function Categories() {
               placeholder="https://..."
             />
             {aiLoading && (
-              <div className="flex items-center gap-2 text-xs text-blue-500 animate-pulse">
+              <div className="flex items-center gap-2 text-xs text-brand animate-pulse">
                 <Loader2 size={12} className="animate-spin" />
                 <span>🤖 AI đang tìm ảnh phù hợp...</span>
               </div>
             )}
             {!aiLoading && catFormData.icon && !editingCategory && (
-              <div className="flex items-center gap-2 text-xs text-green-500">
+              <div className="flex items-center gap-2 text-xs text-success">
                 <Bot size={12} />
                 <span>✅ AI đã tự động điền ảnh</span>
               </div>
@@ -444,7 +444,7 @@ export default function Categories() {
 
           {/* Image preview */}
           {catFormData.icon && (
-            <div className="flex justify-center p-4 bg-muted/50 rounded-xl border border-border">
+            <div className="flex justify-center p-4 bg-glass-bg rounded-base border border-glass-border">
               <img
                 src={catFormData.icon}
                 alt="Preview"
@@ -456,7 +456,7 @@ export default function Categories() {
 
           <div className="pt-4 flex justify-end gap-3">
             <Button variant="ghost" onClick={() => { setIsCatModalOpen(false); setTargetFolderForNewCategory(null); }}>Cancel</Button>
-            <Button variant="outline" onClick={handleGenerateAI} disabled={aiLoading || !catFormData.name.trim()} className="gap-2 border-primary text-primary hover:bg-primary/10">
+            <Button variant="outline" onClick={handleGenerateAI} disabled={aiLoading || !catFormData.name.trim()} className="gap-2">
               <Sparkles size={16} /> Lấy ảnh AI
             </Button>
             <Button onClick={handleCatSubmit} disabled={aiLoading || !catFormData.icon}>Save</Button>
@@ -478,23 +478,23 @@ export default function Categories() {
       {/* Add Category to Folder Modal */}
       <Modal open={isAddToFolderModalOpen} onClose={() => setIsAddToFolderModalOpen(false)} size="sm" title="Thêm vào Thư mục">
         <div className="space-y-2 mb-6">
-          <p className="text-sm text-muted-foreground mb-4">Chọn các thư mục chứa mục <strong>{targetCategory?.name}</strong>:</p>
+          <p className="text-sm text-body mb-4">Chọn các thư mục chứa mục <strong>{targetCategory?.name}</strong>:</p>
           {folders.length === 0 ? (
-            <div className="text-sm text-muted-foreground text-center py-4 bg-muted/30 rounded-lg">Bạn chưa có thư mục nào.</div>
+            <div className="text-sm text-body-subtle text-center py-4 bg-glass-bg rounded-base">Bạn chưa có thư mục nào.</div>
           ) : (
             folders.map(folder => {
               const isIncluded = folder.categories?.some((c: any) => (c._id || c) === targetCategory?._id);
               return (
                 <div 
                   key={folder._id} 
-                  className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${isIncluded ? 'bg-primary/10 border-primary/30' : 'bg-card border-border hover:bg-muted/50'}`}
+                  className={`flex items-center justify-between p-3 rounded-base border cursor-pointer transition-colors ${isIncluded ? 'bg-glass-bg-hover border-brand/30 shadow-glint' : 'bg-glass-bg border-glass-border hover:bg-glass-bg-hover'}`}
                   onClick={() => toggleCategoryInFolder(folder._id)}
                 >
                   <div className="flex items-center gap-3">
-                    <FolderIcon size={18} className={isIncluded ? 'text-primary' : 'text-muted-foreground'} />
+                    <FolderIcon size={18} className={isIncluded ? 'text-brand' : 'text-body-subtle'} />
                     <span className="font-medium">{folder.name}</span>
                   </div>
-                  {isIncluded && <Check size={18} className="text-primary" />}
+                  {isIncluded && <Check size={18} className="text-brand" />}
                 </div>
               );
             })
@@ -508,9 +508,9 @@ export default function Categories() {
       {/* Add Categories to Target Folder Modal */}
       <Modal open={isAddCatToFolderModalOpen} onClose={() => setIsAddCatToFolderModalOpen(false)} size="md" title={`Thêm vào ${targetFolder?.name}`}>
         <div className="space-y-2 mb-6 max-h-[60vh] overflow-y-auto pr-2">
-          <p className="text-sm text-muted-foreground mb-4">Chọn các category để thêm vào thư mục <strong>{targetFolder?.name}</strong>:</p>
+          <p className="text-sm text-body mb-4">Chọn các category để thêm vào thư mục <strong>{targetFolder?.name}</strong>:</p>
           {categories.length === 0 ? (
-            <div className="text-sm text-muted-foreground text-center py-4 bg-muted/30 rounded-lg">Bạn chưa có category nào.</div>
+            <div className="text-sm text-body-subtle text-center py-4 bg-glass-bg rounded-base">Bạn chưa có category nào.</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {categories.map(cat => {
@@ -518,21 +518,21 @@ export default function Categories() {
                 return (
                   <div 
                     key={cat._id} 
-                    className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${isIncluded ? 'bg-primary/10 border-primary/30' : 'bg-card border-border hover:bg-muted/50'}`}
+                    className={`flex items-center justify-between p-3 rounded-base border cursor-pointer transition-colors ${isIncluded ? 'bg-glass-bg-hover border-brand/30 shadow-glint' : 'bg-glass-bg border-glass-border hover:bg-glass-bg-hover'}`}
                     onClick={() => toggleCategoryForTargetFolder(cat._id)}
                   >
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <img src={cat.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.name)}&background=random`} alt={cat.name} className="w-8 h-8 object-contain rounded shadow-sm border border-border" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.name)}&background=random` }} />
+                      <img src={cat.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.name)}&background=random`} alt={cat.name} className="w-8 h-8 object-contain rounded shadow-sm border border-glass-border" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.name)}&background=random` }} />
                       <span className="font-medium truncate">{cat.name}</span>
                     </div>
-                    {isIncluded && <Check size={18} className="text-primary flex-shrink-0" />}
+                    {isIncluded && <Check size={18} className="text-brand flex-shrink-0" />}
                   </div>
                 );
               })}
             </div>
           )}
         </div>
-        <div className="flex justify-end gap-3 pt-4 border-t border-border">
+        <div className="flex justify-end gap-3 pt-4 border-t border-glass-border">
           <Button variant="ghost" onClick={() => setIsAddCatToFolderModalOpen(false)}>Xong</Button>
         </div>
       </Modal>

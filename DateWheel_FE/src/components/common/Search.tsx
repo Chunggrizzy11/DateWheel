@@ -11,7 +11,7 @@ interface SearchProps {
 export default function Search({ value, onChange, placeholder = 'Search...', className }: SearchProps) {
   return (
     <div className={cn('relative', className)}>
-      <SearchIcon size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+      <SearchIcon size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-body-subtle" />
       <input
         type="text"
         value={value}

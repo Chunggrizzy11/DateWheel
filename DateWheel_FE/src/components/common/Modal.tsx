@@ -47,22 +47,24 @@ export default function Modal({ open, onClose, title, children, className, size 
       onClick={(e) => e.target === overlayRef.current && onClose()}
     >
       <div className={cn(
-        'w-full bg-card rounded-2xl shadow-2xl animate-fade-in-scale',
+        'w-full bg-glass-bg backdrop-blur-[20px] rounded-base shadow-glass border border-glass-border relative overflow-hidden animate-fade-in-scale',
         sizes[size],
         className
       )}>
+        <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: 'var(--glass-edge-top)' }}></div>
+        <div className="absolute top-0 left-0 w-[1px] h-full" style={{ background: 'var(--glass-edge-left)' }}></div>
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-            <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+          <div className="flex items-center justify-between px-6 py-4 border-b border-glass-border z-10 relative">
+            <h3 className="text-lg font-semibold text-heading">{title}</h3>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg hover:bg-muted transition-colors"
+              className="p-1.5 rounded-base hover:bg-glass-bg-hover text-body transition-colors"
             >
               <X size={18} />
             </button>
           </div>
         )}
-        <div className="p-6">{children}</div>
+        <div className="p-6 relative z-10">{children}</div>
       </div>
     </div>
   );

@@ -163,7 +163,7 @@ export default function Wheel() {
           <h2 className="text-xl font-bold mb-4 flex items-center gap-2"><Settings2 size={20} /> Configure Wheel</h2>
           
           <Card className="mb-4 p-4 space-y-3 shrink-0">
-            <div className="flex items-center gap-2 mb-2 text-sm font-medium text-muted-foreground">
+            <div className="flex items-center gap-2 mb-2 text-sm font-medium text-body-subtle">
               <FolderIcon size={16} /> Load from Folder
             </div>
             <Select 
@@ -172,19 +172,19 @@ export default function Wheel() {
               options={folders.map(f => ({ label: f.name, value: f._id }))}
               placeholder="-- Manual Selection --"
             />
-            <div className="pt-2 border-t border-border mt-3">
+            <div className="pt-2 border-t border-glass-border mt-3">
               <Search value={keyword} onChange={setKeyword} placeholder="Filter categories..." />
             </div>
           </Card>
 
           <Card className="flex-1 overflow-hidden p-0 flex flex-col min-h-0">
-            <div className="p-3 border-b border-border bg-muted/30 flex justify-between items-center text-sm font-medium">
-              <span>{selectedCategories.length} selected</span>
-              <button onClick={() => setSelectedCategories([])} className="text-red-500 hover:underline">Clear all</button>
+            <div className="p-3 border-b border-glass-border bg-glass-bg flex justify-between items-center text-sm font-medium">
+              <span className="text-body">{selectedCategories.length} selected</span>
+              <button onClick={() => setSelectedCategories([])} className="text-danger hover:underline">Clear all</button>
             </div>
             
             <div className="overflow-y-auto flex-1 p-2">
-              {loading ? <Loading className="py-10" /> : filteredCategories.length === 0 ? <p className="text-center py-4 text-muted-foreground">No categories found.</p> : (
+              {loading ? <Loading className="py-10" /> : filteredCategories.length === 0 ? <p className="text-center py-4 text-body-subtle">No categories found.</p> : (
                 filteredCategories.map(cat => {
                   const isSelected = selectedCategories.some(c => c._id === cat._id);
                   const isExcluded = excludedCategories.includes(cat._id);
@@ -192,9 +192,9 @@ export default function Wheel() {
                     <div 
                       key={cat._id} 
                       onClick={() => !isSpinning && toggleCategory(cat)}
-                      className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors ${isSelected ? 'bg-primary/10' : 'hover:bg-muted'} ${isExcluded ? 'opacity-50 line-through' : ''} ${isSpinning ? 'pointer-events-none' : ''}`}
+                      className={`flex items-center gap-3 p-2 rounded-base cursor-pointer transition-colors ${isSelected ? 'bg-glass-bg-hover shadow-glint' : 'hover:bg-glass-bg-hover'} ${isExcluded ? 'opacity-50 line-through' : ''} ${isSpinning ? 'pointer-events-none' : ''}`}
                     >
-                      {isSelected ? <CheckSquare size={18} className="text-primary flex-shrink-0" /> : <Square size={18} className="text-muted-foreground flex-shrink-0" />}
+                      {isSelected ? <CheckSquare size={18} className="text-brand flex-shrink-0" /> : <Square size={18} className="text-body-subtle flex-shrink-0" />}
                       <div className="w-8 h-8 rounded-lg border-2 border-white/50 bg-white shadow-inner flex items-center justify-center overflow-hidden flex-shrink-0" style={{ borderColor: cat.color }}>
                         <img loading="lazy" src={cat.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.name)}&background=random`} alt={cat.name} className="w-6 h-6 object-contain rounded-md" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.name)}&background=random` }} />
                       </div>
@@ -221,13 +221,13 @@ export default function Wheel() {
           </div>
           
           <div className="flex flex-col items-center w-full max-w-xs sm:max-w-sm gap-3 sm:gap-4 px-2">
-            <div className="flex bg-muted p-1 rounded-xl w-full">
+            <div className="flex bg-neutral-primary-soft border border-glass-border p-1 rounded-base w-full">
               {(['random', 'weighted', 'no_repeat'] as const).map((m) => (
                 <button
                   key={m}
                   disabled={isSpinning}
                   onClick={() => setMode(m)}
-                  className={`flex-1 py-2 text-sm font-medium capitalize rounded-lg transition-colors ${mode === m ? 'bg-card shadow text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+                  className={`flex-1 py-2 text-sm font-medium capitalize rounded-base transition-colors ${mode === m ? 'bg-glass-bg shadow-glass text-brand' : 'text-body-subtle hover:text-heading'}`}
                 >
                   {m.replace('_', ' ')}
                 </button>
@@ -246,7 +246,7 @@ export default function Wheel() {
             </Button>
             
             {activeCategories.length < 2 && (
-              <p className="text-red-500 text-sm font-medium">Please select at least 2 active categories.</p>
+              <p className="text-danger text-sm font-medium">Please select at least 2 active categories.</p>
             )}
           </div>
 

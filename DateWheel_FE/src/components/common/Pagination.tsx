@@ -33,22 +33,22 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="p-2 rounded-lg text-muted-foreground hover:bg-muted/50 hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors"
+        className="p-2 rounded-base text-body-subtle hover:bg-glass-bg-hover hover:text-heading disabled:opacity-30 disabled:pointer-events-none transition-colors"
       >
         <ChevronLeft size={18} />
       </button>
 
       {getPageNumbers().map((page, i) =>
         page === '...' ? (
-          <span key={`dot-${i}`} className="px-2 text-muted-foreground">...</span>
+          <span key={`dot-${i}`} className="px-2 text-body-subtle">...</span>
         ) : (
           <button
             key={page}
             onClick={() => onPageChange(page as number)}
-            className={`min-w-[36px] h-9 rounded-lg text-sm font-medium transition-colors ${
+            className={`min-w-[36px] h-9 rounded-base text-sm font-medium transition-colors ${
               currentPage === page
-                ? 'bg-primary text-primary-foreground shadow-sm'
-                : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
+                ? 'bg-brand text-white shadow-glint'
+                : 'text-body-subtle hover:bg-glass-bg-hover hover:text-heading'
             }`}
           >
             {page}
@@ -59,7 +59,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="p-2 rounded-lg text-muted-foreground hover:bg-muted/50 hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors"
+        className="p-2 rounded-base text-body-subtle hover:bg-glass-bg-hover hover:text-heading disabled:opacity-30 disabled:pointer-events-none transition-colors"
       >
         <ChevronRight size={18} />
       </button>

@@ -27,7 +27,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-white/70 backdrop-blur-md shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-glass-border bg-glass-bg backdrop-blur-[20px] shadow-glass">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -45,10 +45,10 @@ export default function Navbar() {
                   key={item.path}
                   to={item.path}
                   className={cn(
-                    'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                    'flex items-center gap-2 px-3 py-2 rounded-base text-sm font-medium transition-all duration-200',
                     isActive
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                      ? 'bg-glass-bg-hover text-brand shadow-glint'
+                      : 'text-body hover:text-heading hover:bg-glass-bg-hover'
                   )}
                 >
                   <Icon size={16} />
@@ -63,17 +63,17 @@ export default function Navbar() {
             {currentProfile && (
               <button
                 onClick={handleSwitchProfile}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-base bg-glass-bg hover:bg-glass-bg-hover border border-glass-border transition-colors shadow-sm"
               >
                 <ProfileAvatar name={currentProfile.name} size="sm" />
                 <span className="text-sm font-medium hidden sm:inline">{currentProfile.name}</span>
-                <LogOut size={14} className="text-muted-foreground" />
+                <LogOut size={14} className="text-body-subtle" />
               </button>
             )}
 
             {/* Mobile Menu Toggle */}
             <button
-              className="md:hidden p-2 rounded-lg hover:bg-muted"
+              className="md:hidden p-2 rounded-base hover:bg-glass-bg-hover text-heading"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -83,7 +83,7 @@ export default function Navbar() {
 
         {/* Mobile Nav */}
         {mobileMenuOpen && (
-          <nav className="md:hidden pb-4 border-t border-border mt-2 pt-2 animate-fade-in">
+          <nav className="md:hidden pb-4 border-t border-glass-border mt-2 pt-2 animate-fade-in">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -93,10 +93,10 @@ export default function Navbar() {
                   to={item.path}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    'flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors',
+                    'flex items-center gap-3 px-4 py-3 rounded-base text-sm font-medium transition-colors',
                     isActive
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                      ? 'bg-glass-bg-hover text-brand shadow-glint'
+                      : 'text-body hover:text-heading hover:bg-glass-bg-hover'
                   )}
                 >
                   <Icon size={18} />

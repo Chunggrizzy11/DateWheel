@@ -155,7 +155,7 @@ export default function WheelCanvas({ categories, isSpinning, onSpinEnd, winnerI
   }, [isSpinning, winnerIndex, categories, onSpinEnd]);
 
   if (categories.length === 0) {
-    return <div className="w-full aspect-square bg-muted rounded-full flex items-center justify-center text-muted-foreground border-8 border-border">Select categories to spin</div>;
+    return <div className="w-full aspect-square bg-neutral-primary-soft rounded-full flex items-center justify-center text-body-subtle border-8 border-glass-border">Select categories to spin</div>;
   }
 
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -185,7 +185,7 @@ export default function WheelCanvas({ categories, isSpinning, onSpinEnd, winnerI
       <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[15px] border-y-transparent border-r-[30px] border-r-foreground z-10 drop-shadow-md"></div>
       
       {/* Wheel */}
-      <div ref={containerRef} className="w-full h-full rounded-full border-8 border-card shadow-2xl overflow-hidden relative bg-muted">
+      <div ref={containerRef} className="w-full h-full rounded-full border-8 border-glass-border shadow-glass overflow-hidden relative bg-neutral-primary-soft">
         <canvas 
           ref={canvasRef} 
           width={600} 

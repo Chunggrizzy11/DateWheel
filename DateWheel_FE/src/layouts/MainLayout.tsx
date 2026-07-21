@@ -5,7 +5,7 @@ import { Toaster } from 'sonner';
 
 export default function MainLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col mesh-bg">
       <Navbar />
       <main className="flex-1">
         <Outlet />

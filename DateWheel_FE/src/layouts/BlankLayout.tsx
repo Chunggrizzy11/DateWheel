@@ -3,7 +3,7 @@ import { Toaster } from 'sonner';
 
 export default function BlankLayout() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen mesh-bg">
       <Outlet />
       <Toaster position="top-right" richColors closeButton />
     </div>

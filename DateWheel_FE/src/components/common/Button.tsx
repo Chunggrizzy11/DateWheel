@@ -13,8 +13,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       primary: 'btn-primary',
       secondary: 'btn-secondary',
       danger: 'btn-danger',
-      ghost: 'inline-flex items-center justify-center px-4 py-2 rounded-xl text-muted-foreground hover:bg-muted transition-colors',
-      outline: 'inline-flex items-center justify-center px-4 py-2 rounded-xl border-2 border-primary/20 text-primary hover:bg-primary/10 transition-colors',
+      ghost: 'btn-ghost',
+      outline: 'inline-flex items-center justify-center px-4 py-2 rounded-base border border-glass-border text-brand hover:bg-glass-bg-hover transition-colors shadow-sm',
     };
 
     const sizes = {

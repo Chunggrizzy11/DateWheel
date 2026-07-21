@@ -75,9 +75,9 @@ export default function Dashboard() {
       
       {/* Stat Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <Card data-gsap="stat" className="text-center p-4"><div className="text-3xl font-bold text-primary">{categories.length}</div><div className="text-sm text-muted-foreground">Categories</div></Card>
-        <Card data-gsap="stat" className="text-center p-4"><div className="text-3xl font-bold text-primary">{totalSpins}</div><div className="text-sm text-muted-foreground">Total Spins</div></Card>
-        <Card data-gsap="stat" className="text-center p-4"><div className="text-xl font-bold truncate px-2 text-foreground">{lastWinner}</div><div className="text-sm text-muted-foreground">Last Winner</div></Card>
+        <Card data-gsap="stat" className="text-center p-4"><div className="text-3xl font-bold text-brand">{categories.length}</div><div className="text-sm text-body-subtle">Categories</div></Card>
+        <Card data-gsap="stat" className="text-center p-4"><div className="text-3xl font-bold text-brand">{totalSpins}</div><div className="text-sm text-body-subtle">Total Spins</div></Card>
+        <Card data-gsap="stat" className="text-center p-4"><div className="text-xl font-bold truncate px-2 text-heading">{lastWinner}</div><div className="text-sm text-body-subtle">Last Winner</div></Card>
       </div>
 
       {/* Charts & Recent */}
@@ -90,7 +90,7 @@ export default function Dashboard() {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.2)' }} />
-                <Bar dataKey="count" fill="var(--primary, #059669)" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                <Bar dataKey="count" fill="var(--brand)" radius={[4, 4, 0, 0]} maxBarSize={40} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -101,16 +101,16 @@ export default function Dashboard() {
       <Card>
         <h3 className="font-semibold mb-4">Recent Winners</h3>
         {histories.length === 0 ? (
-          <p className="text-muted-foreground">No spins yet.</p>
+          <p className="text-body-subtle">No spins yet.</p>
         ) : (
           <div className="flex gap-4 overflow-x-auto pb-2">
             {histories.slice(0, 5).map((history) => (
-              <div key={history._id} className="flex-shrink-0 w-48 p-4 rounded-xl border-[3px] border-white/20 bg-muted/30 hover:bg-muted/50 transition-colors">
-                <div className="w-12 h-12 mb-3 bg-white rounded-xl shadow-inner flex items-center justify-center overflow-hidden">
+              <div key={history._id} className="flex-shrink-0 w-48 p-4 rounded-base border border-glass-border bg-glass-bg hover:bg-glass-bg-hover transition-colors">
+                <div className="w-12 h-12 mb-3 bg-neutral-primary-soft rounded-base shadow-inner flex items-center justify-center overflow-hidden border border-border-default-subtle">
                   <img src={history.category?.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(history.category?.name || 'U')}&background=random`} alt={history.category?.name || 'Unknown'} className="w-8 h-8 object-contain rounded-lg" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(history.category?.name || 'U')}&background=random` }} />
                 </div>
-                <div className="font-semibold truncate text-foreground">{history.category?.name || 'Unknown'}</div>
-                <div className="text-xs text-muted-foreground mt-1">{new Date(history.createdAt).toLocaleDateString()}</div>
+                <div className="font-semibold truncate text-heading">{history.category?.name || 'Unknown'}</div>
+                <div className="text-xs text-body-subtle mt-1">{new Date(history.createdAt).toLocaleDateString()}</div>
               </div>
             ))}
           </div>

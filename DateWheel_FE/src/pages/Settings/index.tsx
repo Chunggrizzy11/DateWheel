@@ -18,17 +18,17 @@ export default function Settings() {
 
 
   const ToggleRow = ({ icon: Icon, title, desc, checked, onChange }: any) => (
-    <div className="flex items-center justify-between py-4 border-b border-border last:border-0">
+    <div className="flex items-center justify-between py-4 border-b border-border-default last:border-0">
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-primary"><Icon size={20} /></div>
+        <div className="w-10 h-10 rounded-full bg-glass-bg border border-glass-border shadow-glint flex items-center justify-center text-brand"><Icon size={20} /></div>
         <div>
           <h4 className="font-semibold">{title}</h4>
-          <p className="text-sm text-muted-foreground">{desc}</p>
+          <p className="text-sm text-body-subtle">{desc}</p>
         </div>
       </div>
       <label className="relative inline-flex items-center cursor-pointer">
         <input type="checkbox" className="sr-only peer" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+        <div className="w-11 h-6 bg-neutral-tertiary-medium peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-border-default after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-brand"></div>
       </label>
     </div>
   );

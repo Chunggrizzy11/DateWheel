@@ -22,7 +22,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
         className={cn(
           'p-6',
           hover && 'hover-lift cursor-pointer',
-          glass ? 'glass-card' : 'rounded-[2rem] border border-border bg-card shadow-sm',
+          glass ? 'glass-card' : 'rounded-base border border-border-default bg-neutral-primary-soft shadow-sm',
           className
         )}
         {...props}

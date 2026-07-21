@@ -52,25 +52,25 @@ export default function History() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-muted/50 border-b border-border">
-                  <th className="p-4 font-medium text-sm">Date</th>
-                  <th className="p-4 font-medium text-sm">Winner</th>
-                  <th className="p-4 font-medium text-sm">Mode</th>
-                  <th className="p-4 font-medium text-sm text-right">Action</th>
+                <tr className="bg-neutral-primary-soft border-b border-border-default">
+                  <th className="p-4 font-medium text-sm text-heading">Date</th>
+                  <th className="p-4 font-medium text-sm text-heading">Winner</th>
+                  <th className="p-4 font-medium text-sm text-heading">Mode</th>
+                  <th className="p-4 font-medium text-sm text-heading text-right">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map(history => {
                   return (
-                    <tr key={history._id} data-gsap="history-row" className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
-                      <td className="p-4 text-sm text-muted-foreground whitespace-nowrap">{new Date(history.createdAt).toLocaleString()}</td>
-                      <td className="p-4 font-semibold flex items-center gap-3">
+                    <tr key={history._id} data-gsap="history-row" className="border-b border-border-default last:border-0 hover:bg-glass-bg-hover transition-colors">
+                      <td className="p-4 text-sm text-body-subtle whitespace-nowrap">{new Date(history.createdAt).toLocaleString()}</td>
+                      <td className="p-4 font-semibold flex items-center gap-3 text-heading">
                         <img src={history.category?.icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(history.category?.name || 'U')}&background=random`} alt={history.category?.name || 'Unknown'} className="w-8 h-8 object-contain drop-shadow-sm rounded-md" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(history.category?.name || 'U')}&background=random` }} />
                         {history.category?.name || 'Unknown'}
                       </td>
                       <td className="p-4 text-sm"><span className="px-2 py-1 bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300 rounded text-xs capitalize">{history.mode.replace('_', ' ')}</span></td>
                       <td className="p-4 text-right">
-                        <button onClick={() => setDeleteId(history._id)} className="text-muted-foreground hover:text-red-500 p-2"><Trash2 size={16} /></button>
+                        <button onClick={() => setDeleteId(history._id)} className="text-body-subtle hover:text-danger p-2"><Trash2 size={16} /></button>
                       </td>
                     </tr>
                   );
